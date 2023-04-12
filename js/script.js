@@ -12,6 +12,17 @@ genreOk.id = 'genreOK';
 genreOk.innerText = 'OK knop';
 overzicht.appendChild(genreOk);
 
+// Rating Select
+let rating = [];
+var ratingSelect = document.createElement('Select');
+ratingSelect.id = 'ratingSelect';
+overzicht.appendChild(ratingSelect);
+
+var ratingOk = document.createElement('button');
+ratingOk.id = 'ratingOK';
+ratingOk.innerText = 'OK knop';
+overzicht.appendChild(ratingOk);
+
 // Price inputfield 
 var priceInput = document.createElement('input');
 priceInput.type = 'text';
@@ -52,7 +63,7 @@ fetch('games.json')
             }
         }
 
-        // Event listener to select and button
+        // Event listener to select and button for genre
         genreOk.addEventListener('click', function() {
             gameList.innerHTML = '';
             const selectedGenre = genreSelect.value;
@@ -61,15 +72,60 @@ fetch('games.json')
                     showGames(element);
                 })
             } else {
-                const filteredData = data.filter(data => data.genre === selectedGenre);
-                filteredData.forEach(element => {
+                const filteredGenre = data.filter(data => data.genre === selectedGenre);
+                filteredGenre.forEach(element => {
                     showGames(element);
                 })
             }
         })
 
+        // Give ratingSelect its values
+        if (rating.includes(element['rating'])) {
+            null
+        } else {
+            rating.push(element['rating']);
+            var option = document.createElement('option');
+            option.text = element['rating'];
+            option.value = element['rating'];
+            ratingSelect.appendChild(option);
+            if (rating.length == 5) {
+                var option = document.createElement('option');
+                option.text = 'All';
+                option.value = 'All';
+                ratingSelect.appendChild(option);
+            }
+        }
+
+        // Event listener to select and button for rating
+        ratingOk.addEventListener('click', function() {
+            gameList.innerHTML = '';
+            const selectedRating = ratingSelect.value;
+            if (selectedRating == 'All') {
+                data.forEach(element => {
+                    showGames(element);
+                }) } else {
+                const filteredRating = data.filter(data => data.rating == selectedRating);
+                filteredRating.forEach(element => {
+                    showGames(element);
+                })
+            }
+        })
+
+        // Price filter
+
+        priceOk.addEventListener('click', function() {
+            var price = priceInput.value;
+            price = parseInt(price);
+            gameList.innerHTML = '';
+            if (element["price"] < price) {
+                showGames(element);
+            }
+        })
+
+        // Show all games
         showGames(element);
 
+        // Function showing games
         function showGames(element) {
             // Create label and checkbox
             var gameDiv = document.createElement('div');

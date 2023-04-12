@@ -13,12 +13,19 @@
     margin-left: 20px;
 }
 
-/* Price and genre buttons */
+/* Price, genre and rating buttons */
 #genreSelect {
     margin-left: 20px;
     background-color: inherit;
     padding: 10px;
     width: 20%;
+}
+
+#ratingSelect {
+    margin-left: 100px;
+    background-color: inherit;
+    padding: 10px;
+    width: 10%;
 }
 
 #genreOK {
@@ -27,8 +34,14 @@
     padding: 10px;
 }
 
+#ratingOK {
+    margin-left: 20px;
+    background-color: inherit;
+    padding: 10px;
+}
+
 .price {
-    margin-left: 250px;
+    margin-left: 70px;
     background-color: inherit;
     padding: 10px;
 }
