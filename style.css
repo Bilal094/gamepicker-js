@@ -2,6 +2,7 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+/* Overzicht */
 #overzicht {
     height: 100%;
     width: 50%;
@@ -12,10 +13,12 @@
     margin-left: 20px;
 }
 
-.genre {
+/* Price and genre buttons */
+#genreSelect {
     margin-left: 20px;
     background-color: inherit;
     padding: 10px;
+    width: 20%;
 }
 
 #genreOK {
@@ -25,7 +28,7 @@
 }
 
 .price {
-    margin-left: 450px;
+    margin-left: 250px;
     background-color: inherit;
     padding: 10px;
 }
@@ -36,9 +39,35 @@
     padding: 10px;
 }
 
+/* Game list */
 #gameList {
+    font-size: 30px;
     width: 80%;
     border: solid 2px black;
+    border-radius: 10px;
     margin: auto;
     margin-top: 50px;
+    position: relative;
+}
+
+#gameCheckbox {
+    height: 30px;
+    width: 30px;
+}
+
+#gameDiv {
+    border: black solid 1px;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 5px;
+}
+
+#gameLabel {
+    padding-left: 10px;
+    margin-right: 40px;
+}
+
+#gamePriceLabel {
+    font-size: 20px;
+    float: right;
 }

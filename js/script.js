@@ -1,10 +1,11 @@
+// Get overzicht id
 var overzicht = document.getElementById('overzicht');
 
-// Genre button
-var genreBtn = document.createElement('button');
-genreBtn.classList.add('genre');
-genreBtn.innerText = 'Genre dropdown';
-overzicht.appendChild(genreBtn);
+// Genre Select
+let genre = [];
+var genreSelect = document.createElement('select');
+genreSelect.id = 'genreSelect';
+overzicht.appendChild(genreSelect);
 
 var genreOk = document.createElement('button');
 genreOk.id = 'genreOK';
@@ -25,12 +26,75 @@ overzicht.appendChild(priceOk);
 
 // Game list
 var gameList = document.createElement('section');
-gameList.innerText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eget nunc ut neque vestibulum pellentesque. Vivamus vel mauris a nibh pulvinar laoreet. Curabitur dignissim mattis mi vel dictum. In at auctor urna, gravida blandit nisi. Aenean accumsan, augue id venenatis mollis, eros arcu tempus dolor, eget tempus sem velit et quam. Nam consectetur consectetur quam sed rhoncus. Aenean velit justo, varius ut arcu at, tincidunt lobortis lorem. Sed sollicitudin aliquet turpis at vestibulum. Ut in congue sapien. Sed vitae lectus id dolor pellentesque aliquet. Sed lectus massa, luctus ac ultricies id, dictum sed felis. Nam dignissim, diam a pharetra dapibus, risus dolor finibus augue, ut tincidunt turpis tellus eget est.'
 gameList.id = 'gameList'
 overzicht.appendChild(gameList);
 
 // Fetch JSON file
-
 fetch('games.json')
 .then(response => response.json())
-.then(data => console.log(data))
+.then(data =>
+    data.forEach(element => {
+    
+        // Give genreSelect its values
+        if (genre.includes(element['genre'])) {
+            null
+        } else {
+            genre.push(element['genre']);
+            var option = document.createElement('option');
+            option.text = element['genre'];
+            option.value = element['genre'];
+            genreSelect.appendChild(option);
+            if (genre.length == 8) {
+                var option = document.createElement('option');
+                option.text = 'All';
+                option.value = 'All';
+                genreSelect.appendChild(option);
+            }
+        }
+
+        // Event listener to select and button
+        genreOk.addEventListener('click', function() {
+            gameList.innerHTML = '';
+            const selectedGenre = genreSelect.value;
+            if (selectedGenre == 'All') {
+                data.forEach(element => {
+                    showGames(element);
+                })
+            } else {
+                const filteredData = data.filter(data => data.genre === selectedGenre);
+                filteredData.forEach(element => {
+                    showGames(element);
+                })
+            }
+        })
+
+        showGames(element);
+
+        function showGames(element) {
+            // Create label and checkbox
+            var gameDiv = document.createElement('div');
+            var gameLabel = document.createElement('label');
+            var gameCheckbox = document.createElement('input');
+            var gamePriceLabel = document.createElement('label');
+            gameCheckbox.type = 'checkbox';
+        
+            // Assign id to label and checkbox
+            gameCheckbox.id = 'gameCheckbox';
+            gameLabel.id = 'gameLabel';
+            gameDiv.id = 'gameDiv';
+            gamePriceLabel.id = 'gamePriceLabel';
+            gameLabel.innerText = element['title'];
+            gamePriceLabel.innerText = '$' + element['price'];
+
+            if (element['price'] == '0') {
+                gamePriceLabel.innerText = 'FREE';
+            }
+        
+            // Append label and checkbox
+            gameList.appendChild(gameDiv);
+            gameDiv.appendChild(gameCheckbox);
+            gameDiv.appendChild(gameLabel);
+            gameDiv.appendChild(gamePriceLabel);
+        }
+    })
+)
