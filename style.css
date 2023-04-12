@@ -1,0 +1,44 @@
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#overzicht {
+    height: 100%;
+    width: 50%;
+    border: solid 2px black;
+}
+
+#overzicht h1 {
+    margin-left: 20px;
+}
+
+.genre {
+    margin-left: 20px;
+    background-color: inherit;
+    padding: 10px;
+}
+
+#genreOK {
+    margin-left: 20px;
+    background-color: inherit;
+    padding: 10px;
+}
+
+.price {
+    margin-left: 450px;
+    background-color: inherit;
+    padding: 10px;
+}
+
+#priceOK {
+    margin-left: 20px;
+    background-color: inherit;
+    padding: 10px;
+}
+
+#gameList {
+    width: 80%;
+    border: solid 2px black;
+    margin: auto;
+    margin-top: 50px;
+}
