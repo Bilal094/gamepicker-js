@@ -52,15 +52,23 @@
     padding: 10px;
 }
 
+#calculateBtn {
+    margin-left: 20px;
+    background-color: inherit;
+    padding: 10px;
+
+}
+
 /* Game list */
 #gameList {
     font-size: 30px;
+    height: 400px;
     width: 80%;
     border: solid 2px black;
     border-radius: 10px;
     margin: auto;
     margin-top: 50px;
-    position: relative;
+    overflow: auto;
 }
 
 #gameCheckbox {

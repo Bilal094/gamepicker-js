@@ -40,6 +40,12 @@ var gameList = document.createElement('section');
 gameList.id = 'gameList'
 overzicht.appendChild(gameList);
 
+// Calculate button
+var calculateBtn = document.createElement('button');
+calculateBtn.id = 'calculateBtn';
+calculateBtn.innerText = 'Bereken'
+overzicht.appendChild(calculateBtn);
+
 // Fetch JSON file
 fetch('games.json')
 .then(response => response.json())
@@ -104,7 +110,7 @@ fetch('games.json')
                 data.forEach(element => {
                     showGames(element);
                 }) } else {
-                const filteredRating = data.filter(data => data.rating == selectedRating);
+                const filteredRating = data.filter(data => data.rating <= selectedRating);
                 filteredRating.forEach(element => {
                     showGames(element);
                 })
@@ -112,14 +118,14 @@ fetch('games.json')
         })
 
         // Price filter
-
         priceOk.addEventListener('click', function() {
             var price = priceInput.value;
             price = parseInt(price);
             gameList.innerHTML = '';
-            if (element["price"] < price) {
+            filteredPrice = data.filter(data => data.price <= price);
+            filteredPrice.forEach(element => {
                 showGames(element);
-            }
+            })
         })
 
         // Show all games
@@ -154,3 +160,4 @@ fetch('games.json')
         }
     })
 )
+
