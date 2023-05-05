@@ -1,49 +1,38 @@
 // Get overzicht id
 var overzicht = document.getElementById('overzicht');
 
-// Genre Select
+// Thanks to Robin for this method (Object.assign)
+// Genre select and button
 let genre = [];
-var genreSelect = document.createElement('select');
-genreSelect.id = 'genreSelect';
+var genreSelect = Object.assign(document.createElement('select'), {id: 'genreSelect'});
 overzicht.appendChild(genreSelect);
 
-var genreOk = document.createElement('button');
-genreOk.id = 'genreOK';
-genreOk.innerText = 'OK knop';
+const genreOk = Object.assign(document.createElement('button'), {innerText: 'OK knop', id: 'genreOK'});
 overzicht.appendChild(genreOk);
 
-// Rating Select
+// Rating select and button
 let rating = [];
-var ratingSelect = document.createElement('Select');
-ratingSelect.id = 'ratingSelect';
+var ratingSelect = Object.assign(document.createElement('select'), {id: 'ratingSelect'});
 overzicht.appendChild(ratingSelect);
 
-var ratingOk = document.createElement('button');
-ratingOk.id = 'ratingOK';
-ratingOk.innerText = 'OK knop';
+const ratingOk = Object.assign(document.createElement('button'), {innerText: 'OK knop', id: 'ratingOK'});
 overzicht.appendChild(ratingOk);
 
-// Price inputfield 
-var priceInput = document.createElement('input');
-priceInput.type = 'text';
-priceInput.value = 'Prijs inputfield';
-priceInput.classList.add('price');
+// Price inputfield and button
+var priceInput = Object.assign(document.createElement('input'), {value: 'Prijs inputfield', className: 'price', type: 'text'});
 overzicht.appendChild(priceInput);
 
-var priceOk = document.createElement('button');
-priceOk.id = 'priceOK';
-priceOk.innerText = 'OK knop';
+const priceOk = Object.assign(document.createElement('button'), {innerText: 'OK knop', id: 'priceOK'});
 overzicht.appendChild(priceOk);
 
 // Game list
-var gameList = document.createElement('section');
-gameList.id = 'gameList'
+var gameList = Object.assign(document.createElement('section'), {id: 'gameList'});
 overzicht.appendChild(gameList);
 
 // Calculate button
-var calculateBtn = document.createElement('button');
+const calculateBtn = document.createElement('button');
+calculateBtn.innerText = 'Bereken';
 calculateBtn.id = 'calculateBtn';
-calculateBtn.innerText = 'Bereken'
 overzicht.appendChild(calculateBtn);
 
 // Fetch JSON file
@@ -51,7 +40,6 @@ fetch('games.json')
 .then(response => response.json())
 .then(data =>
     data.forEach(element => {
-    
         // Give genreSelect its values
         if (genre.includes(element['genre'])) {
             null
@@ -131,6 +119,12 @@ fetch('games.json')
         // Show all games
         showGames(element);
 
+        // Calculate button
+        calculateBtn.addEventListener('click', function () {
+            const checkedGames = Array.from(document.querySelectorAll('#gameList input[type="checkbox"]:checked')).map(checkbox => checkbox.value.split('='));
+            calculate(checkedGames);
+        });
+        
         // Function showing games
         function showGames(element) {
             // Create label and checkbox
@@ -148,6 +142,8 @@ fetch('games.json')
             gameLabel.innerText = element['title'];
             gamePriceLabel.innerText = '$' + element['price'];
 
+            gameCheckbox.value = element.title + '=' + element.price;
+            
             if (element['price'] == '0') {
                 gamePriceLabel.innerText = 'FREE';
             }
@@ -161,3 +157,14 @@ fetch('games.json')
     })
 )
 
+function calculate(list) {
+    var games = [];
+    list.forEach(element => {
+        if (games.includes(element)) {
+            null
+        } else {
+            games.push(element);
+        }
+    })
+    
+}

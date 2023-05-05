@@ -53,10 +53,11 @@
 }
 
 #calculateBtn {
-    margin-left: 20px;
+    margin-top: 50px ;
+    margin-left: 720px;
+    margin-bottom: 10px;
     background-color: inherit;
     padding: 10px;
-
 }
 
 /* Game list */
