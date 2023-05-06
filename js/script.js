@@ -1,5 +1,9 @@
-// Get overzicht id
-var overzicht = document.getElementById('overzicht');
+// Static divs
+const overzicht = document.getElementById('overzicht');
+const winkelwagen = document.getElementById("winkelwagen");
+
+// Hide winkelwagen
+winkelwagen.style.display = "none";
 
 // Thanks to Robin for this method (Object.assign)
 // Genre select and button
@@ -118,12 +122,6 @@ fetch('games.json')
 
         // Show all games
         showGames(element);
-
-        // Calculate button
-        calculateBtn.addEventListener('click', function () {
-            const checkedGames = Array.from(document.querySelectorAll('#gameList input[type="checkbox"]:checked')).map(checkbox => checkbox.value.split('='));
-            calculate(checkedGames);
-        });
         
         // Function showing games
         function showGames(element) {
@@ -156,15 +154,93 @@ fetch('games.json')
         }
     })
 )
+.then(() => {
+    // Calculate button
+    calculateBtn.addEventListener('click', function () {
+        const checkedGames = Array.from(document.querySelectorAll('#gameList input[type="checkbox"]:checked')).map(checkbox => checkbox.value.split('='));
+        calculate(checkedGames);
+    });
+})
 
 function calculate(list) {
-    var games = [];
-    list.forEach(element => {
-        if (games.includes(element)) {
-            null
-        } else {
-            games.push(element);
+   let totalPrice = 0;
+   // Creating a remove game label
+   const removeGameLabel = document.createElement('label');
+   removeGameLabel.id = "removeGameLabel";
+   removeGameLabel.innerText = "Klik op de prijs button onderaan om geselecteerde games uit je winkelwagen te verwijderen";
+   winkelwagen.appendChild(removeGameLabel);
+
+   //  Make new button for removing selected games  
+   const removeSelectedBtn = document.createElement("button");
+   removeSelectedBtn.id = "removeGameBtn";
+
+   // Make the 'winkelwagen' div appear and the 'overzicht' div disappear
+   overzicht.style.display = "none";
+   winkelwagen.style.display = "block";
+   winkelwagen.appendChild(gameList);
+
+   // Remove child elements
+    while (gameList.firstChild) {
+        gameList.removeChild(gameList.firstChild);
+    }
+
+    const gamesObjects = list.map(game => {
+        return {
+            name: game[0],
+            price: parseFloat(game[1])
         }
+    });
+
+    // Make the selected games appear
+    gamesObjects.forEach(element => {
+            // Create label and checkbox
+            var gameDiv = document.createElement('div');
+            var gameLabel = document.createElement('label');
+            var gameCheckbox = document.createElement('input');
+            var gamePriceLabel = document.createElement('label');
+            gameCheckbox.type = 'checkbox';
+        
+            // Assign id to label and checkbox
+            gameCheckbox.id = 'gameCheckbox';
+            gameLabel.id = 'gameLabel';
+            gameDiv.id = 'gameDiv';
+            gamePriceLabel.id = 'gamePriceLabel';
+            gameLabel.innerText = element['name'];
+            gamePriceLabel.innerText = '$' + element['price'];
+
+            gameCheckbox.value = element.name + '=' + element.price;
+            
+            if (element['price'] == '0') {
+                gamePriceLabel.innerText = 'FREE';
+            }
+        
+            // Append label and checkbox
+            gameList.appendChild(gameDiv);
+            gameDiv.appendChild(gameCheckbox);
+            gameDiv.appendChild(gameLabel);
+            gameDiv.appendChild(gamePriceLabel);
     })
-    
+
+    // Count price
+    gamesObjects.forEach(element => {
+        totalPrice += element['price']
+    })
+
+    // Put price in remove button and append it to the div
+    removeSelectedBtn.innerText = "Prijs: $" + totalPrice;
+    winkelwagen.appendChild(removeSelectedBtn);
+
+    removeSelectedBtn.addEventListener('click', function() {
+        const selectedGames = document.querySelectorAll('#gameList input[type="checkbox"]:checked');
+        
+        selectedGames.forEach(game => {
+
+            const gameValue = game.value
+            var splitStr = gameValue.substring(gameValue.indexOf('=') + 1);
+
+            game.parentElement.remove();
+            totalPrice -= parseFloat(splitStr);
+            removeSelectedBtn.innerText = "Prijs: $" + totalPrice.toFixed(2);
+        });
+    });
 }

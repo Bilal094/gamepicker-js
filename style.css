@@ -3,13 +3,13 @@
 }
 
 /* Overzicht */
-#overzicht {
+#overzicht, #winkelwagen {
     height: 100%;
     width: 50%;
     border: solid 2px black;
 }
 
-#overzicht h1 {
+#overzicht h1, #winkelwagen h1 {
     margin-left: 20px;
 }
 
@@ -52,7 +52,16 @@
     padding: 10px;
 }
 
-#calculateBtn {
+#calculateBtn, #removeGameBtn {
+    margin-top: 50px ;
+    margin-left: 720px;
+    margin-bottom: 10px;
+    background-color: inherit;
+    padding: 10px;
+}
+
+#showPrice {
+    border: solid 2px black;
     margin-top: 50px ;
     margin-left: 720px;
     margin-bottom: 10px;
@@ -92,4 +101,9 @@
 #gamePriceLabel {
     font-size: 20px;
     float: right;
+}
+
+#removeGameLabel {
+    padding: 10px;	display: grid;
+	place-items: center
 }
